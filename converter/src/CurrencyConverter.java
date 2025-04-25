@@ -9,17 +9,21 @@ public class CurrencyConverter {
             System.out.println("\nCURRENCY CONVERTER:");
 
             System.out.println("1 - BRL > USD");
-            System.out.println("2 - Close");
+            System.out.println("2 - USD > BRL");
+            System.out.println("3 - Close");
             System.out.println("Choose an option:");
 
-            int escolha = scanner.nextInt();
+            int choice = scanner.nextInt();
             scanner.nextLine();
 
-            switch (escolha) {
+            switch (choice) {
                 case 1:
-                    realizarConversao(newConsult, "USD");
+                    doConvertion(newConsult, "USD");
                     break;
                 case 2:
+                    doConvertion(newConsult, "BRL");
+                    break;
+                case 3:
                     System.out.println("Closing program...");
                     return;
                 default:
@@ -28,22 +32,22 @@ public class CurrencyConverter {
         }
     }
 
-    private static void realizarConversao(ValueConsult consult, String consultDestination) {
+    private static void doConvertion(ValueConsult consult, String consultDestination) {
         ExchangeRateApi currencyConsult = consult.valueConsult("BRL");
 
         if (currencyConsult != null && currencyConsult.conversionRates() != null) {
             Double exchangeRate = (Double) currencyConsult.conversionRates().get(consultDestination);
 
             if (exchangeRate != null) {
-                double brtValue;
+                double brlValue;
                 Scanner scanner = new Scanner(System.in);
 
                 System.out.println("Value to convert: ");
-                brtValue = scanner.nextDouble();
+                brlValue = scanner.nextDouble();
 
-                double valorConvertido = brtValue * exchangeRate;
-                System.out.println("The value of " + String.format("%.2f", brtValue) + " BRL" + " converted to " + consultDestination +
-                        " with an Exchange rate of: " + exchangeRate + " is: " + String.format("%.2f", valorConvertido));
+                double valueConverted = brlValue * exchangeRate;
+                System.out.println("The value of " + String.format("%.2f", brlValue) + " BRL" + " converted to " + consultDestination +
+                        " with an Exchange rate of: " + exchangeRate + " is: " + String.format("%.2f", valueConverted));
                 System.out.println("\n");
             } else {
                 System.out.println("Exchange rate for " + consultDestination + " not available.");
